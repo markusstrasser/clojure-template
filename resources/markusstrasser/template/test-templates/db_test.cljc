@@ -1,8 +1,8 @@
-(ns {{top/ns}}.{{main/ns}}.db-test
+(ns {{raw-name}}.db-test
   (:require
    #?(:clj  [clojure.test :refer [deftest is testing]]
       :cljs [cljs.test :refer [deftest is testing]])
-   [{{top/ns}}.{{main/ns}}.db :as db]))
+   [{{raw-name}}.db :as db]))
 
 (deftest create-db-test
   (testing "create-db returns valid database"

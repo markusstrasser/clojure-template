@@ -1,8 +1,8 @@
 {:description "Batteries-included Clojure/ClojureScript template with AI-friendly tooling (evo-based)"
  :root "root"
  :transform
- [["src-templates" "src/{{top/file}}/{{main/file}}"
+ [["src-templates" "src/{{raw-name}}"
    {"main.cljs" "main.cljs"
     "db.cljc" "db.cljc"}]
-  ["test-templates" "test/{{top/file}}/{{main/file}}"
+  ["test-templates" "test/{{raw-name}}"
    {"db_test.cljc" "db_test.cljc"}]]}

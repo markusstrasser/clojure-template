@@ -1,8 +1,8 @@
-(ns {{top/ns}}.{{main/ns}}.main
+(ns {{raw-name}}.main
   "Main entry point for {{name}}"
   (:require
    [replicant.dom :as d]
-   [{{top/ns}}.{{main/ns}}.db :as db]))
+   [{{raw-name}}.db :as db]))
 
 (defn app-component
   "Root application component"
@@ -12,7 +12,7 @@
     [:h1 {:class "text-4xl font-bold text-gray-900 mb-4"}
      "Welcome to {{name}}"]
     [:p {:class "text-gray-600"}
-     "Edit src/{{top/file}}/{{main/file}}/main.cljs to get started"]
+     "Edit src/{{raw-name}}/main.cljs to get started"]
     [:div {:class "mt-8"}
      [:p {:class "text-sm text-gray-500"}
       "REPL: " [:code {:class "bg-gray-100 px-2 py-1 rounded"} "(repl/go!)"]]]]])

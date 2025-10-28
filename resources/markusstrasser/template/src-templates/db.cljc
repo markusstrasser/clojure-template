@@ -1,4 +1,4 @@
-(ns {{top/ns}}.{{main/ns}}.db
+(ns {{raw-name}}.db
   "Database and state management for {{name}}
 
   TODO: Customize this for your domain")
