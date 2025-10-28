@@ -1,8 +1,8 @@
-(ns {{main/ns}}.main
+(ns {{top/ns}}.{{main/ns}}.main
   "Main entry point for {{name}}"
   (:require
    [replicant.dom :as d]
-   [{{main/ns}}.db :as db]))
+   [{{top/ns}}.{{main/ns}}.db :as db]))
 
 (defn app-component
   "Root application component"
