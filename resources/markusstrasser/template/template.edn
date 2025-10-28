@@ -1,4 +1,5 @@
 {:description "Batteries-included Clojure/ClojureScript template with AI-friendly tooling (evo-based)"
+ :root "root"
  :transform
  [["src-templates" "src/{{top/file}}/{{main/file}}"
    {"main.cljs" "main.cljs"
