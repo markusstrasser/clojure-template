@@ -35,7 +35,7 @@
   {:target :browser
    :output-dir "public/js/frontend"
    :asset-path "/js/frontend"
-   :modules {:main {:init-fn {{top/ns}}.{{name}}.main/main}}}
+   :modules {:main {:init-fn {{main/ns}}.main/main}}}
 
   ;; Test build (node-based)
   :test
