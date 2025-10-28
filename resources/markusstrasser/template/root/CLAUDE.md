@@ -26,35 +26,12 @@ This project uses AI-friendly development patterns:
 # Quality gates
 bb lint check test check-deps-sync
 
-# Cache & index
-bb clean index
+# Cache
+bb clean
 
 # Development
 bb dev repl-health install-hooks help
 ```
-
-### Semantic Search & Indexing
-
-The `ck` tool provides semantic, lexical, and hybrid code search with embeddings:
-
-```bash
-# Rebuild embeddings index (do this regularly)
-bb index
-
-# Clean caches + orphaned index files
-bb clean
-
-# Semantic search in code
-ck --sem "pattern description" src/
-
-# Search session history
-skills/session-memory/run.sh search --hybrid "topic" --limit 5
-```
-
-**Index management:**
-- **`.ck/` directories** - Gitignored embeddings cache (auto-generated)
-- **Rebuild regularly** - Run `bb index` after major refactors or weekly
-- **First search is slow** - Builds index automatically, subsequent searches are instant
 
 ### llmx CLI (Agent Scripts)
 

@@ -49,17 +49,7 @@ else
   echo "✓ npm dependencies already installed"
 fi
 
-# 5. Build semantic search index
-echo ""
-echo "Building semantic search index..."
-if command -v ck &> /dev/null; then
-  bb index
-else
-  echo "⚠️  ck (semantic search) not found - skipping index"
-  echo "   Install: https://github.com/cloudflare/ck"
-fi
-
-# 6. Verify setup
+# 5. Verify setup
 echo ""
 echo "=== Verifying Setup ==="
 echo ""

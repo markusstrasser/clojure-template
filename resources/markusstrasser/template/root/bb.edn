@@ -23,31 +23,15 @@
    check-deps-sync {:doc "Verify deps.edn and shadow-cljs.edn versions match"
                     :task (shell "scripts/check-version-sync.sh")}
 
-   ;; Cache & index management
-   clean       {:doc "Clear all caches and semantic search index"
+   ;; Cache management
+   clean       {:doc "Clear all caches"
                 :task (do
                         (println "Clearing caches...")
                         (fs/delete-tree ".shadow-cljs")
                         (fs/delete-tree ".cpcache")
                         (when (fs/exists? "node_modules/.cache")
                           (fs/delete-tree "node_modules/.cache"))
-                        (println "Cleaning semantic search index...")
-                        (shell "ck --clean-orphans .")
-                        (doseq [dir (fs/glob "." "**/.ck")]
-                          (println (str "  Removing " dir))
-                          (fs/delete-tree dir))
-                        (println "✓ Caches and index cleaned"))}
-
-   index       {:doc "Rebuild ck (semantic search) embeddings index"
-                :task (do
-                        (println "Rebuilding semantic search index...")
-                        (println "Cleaning orphaned files...")
-                        (shell "ck --clean-orphans .")
-                        (println "Indexing source files...")
-                        (shell "ck --sem --threshold 0.0 --limit 1 'test' src/")
-                        (println "Indexing session files...")
-                        (shell "ck --sem --threshold 0.0 --limit 1 'test' ~/.claude/projects/-Users-alien-Projects-evo/")
-                        (println "✓ Index rebuilt"))}
+                        (println "✓ Caches cleaned"))}
 
    ;; REPL helpers
    repl-health {:doc "Quick REPL diagnostics (requires running REPL)"
@@ -73,10 +57,8 @@
                         (println "  bb lint            - Run clj-kondo linter")
                         (println "  bb check           - Lint + compile check")
                         (println "  bb test            - Run test suite")
-                        (println "  bb check-deps-sync - Verify dependency versions match\n")
-                        (println "Cache & Index:")
-                        (println "  bb clean           - Clear all caches + semantic index")
-                        (println "  bb index           - Rebuild ck semantic index\n")
+                        (println "  bb check-deps-sync - Verify dependency versions match")
+                        (println "  bb clean           - Clear all caches\n")
                         (println "Development:")
                         (println "  bb dev             - Start dev server + watch")
                         (println "  bb repl-health     - REPL diagnostics")
