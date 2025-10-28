@@ -1,0 +1,38 @@
+# Clojure / ClojureScript
+.cpcache/
+.nrepl-port
+.shadow-cljs/
+out/
+target/
+*.class
+
+# Node
+node_modules/
+package-lock.json
+npm-debug.log*
+
+# Build outputs
+public/js/
+public/output.css
+
+# Semantic search index
+.ck/
+**/.ck/
+
+# Editor
+.DS_Store
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Environment
+.env
+.env.local
+
+# Testing
+.playwright/
+
+# Logs
+*.log

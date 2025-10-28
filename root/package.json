@@ -1,0 +1,25 @@
+{
+  "name": "{{raw-name}}",
+  "version": "0.0.1",
+  "description": "{{description}}",
+  "scripts": {
+    "start": "npm run dev",
+    "dev": "concurrently --kill-others-on-fail \"npm run watch:cljs\" \"npm run watch:css\"",
+    "watch:cljs": "npx shadow-cljs watch frontend",
+    "watch:css": "tailwindcss -i input.css -o public/output.css --watch",
+    "build": "npx shadow-cljs clean && npx shadow-cljs release frontend && tailwindcss -i input.css -o public/output.css --minify",
+    "test": "npx shadow-cljs compile test && node out/tests.js",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:debug": "playwright test --debug",
+    "repl": "npx shadow-cljs cljs-repl frontend"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.0",
+    "@tailwindcss/cli": "^4.1.14",
+    "concurrently": "^9.2.1",
+    "shadow-cljs": "^3.2.0",
+    "tailwindcss": "^4.1.14"
+  },
+  "dependencies": {}
+}

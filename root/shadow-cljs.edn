@@ -1,0 +1,45 @@
+;; shadow-cljs configuration for {{name}}
+;; IMPORTANT: Keep :dependencies in sync with deps.edn
+;; Validate with: bb check-deps-sync
+{:source-paths
+ ["src" "test" "dev" "lab"]
+
+ :dependencies
+ [[no.cjohansen/replicant "2025.06.21"]
+  [metosin/malli "0.19.1"]
+  [medley "1.4.0"]
+  [datascript "1.7.5"]
+  [binaryage/devtools "1.0.7"]
+  [com.rpl/specter "1.1.5"]
+  [org.clojure/core.match "1.1.0"]
+  [hiccup/hiccup "2.0.0"]
+  [markdown-to-hiccup/markdown-to-hiccup "0.6.2"]
+  [org.clojure/test.check "1.1.1"]
+  [funcool/promesa "11.0.678"]]
+
+ ;; Development server
+ :dev-http {8080 "public"}
+
+ ;; nREPL for REPL-driven development
+ ;; Connect via: (repl/go!) in dev/repl/init.cljc
+ :nrepl {:port 55449}
+
+ ;; Compiler options
+ :compiler-options
+ {;; Externs for JS interop (add as needed)
+  :externs ["datascript/externs.js"]}
+
+ :builds
+ {;; Frontend browser build
+  :frontend
+  {:target :browser
+   :output-dir "public/js/frontend"
+   :asset-path "/js/frontend"
+   :modules {:main {:init-fn {{top/ns}}.{{name}}.main/main}}}
+
+  ;; Test build (node-based)
+  :test
+  {:target :node-test
+   :output-to "out/tests.js"
+   :ns-regexp "-test$"
+   :ns-exclude-regexp "browser-ui"}}}

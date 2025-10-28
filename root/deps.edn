@@ -1,0 +1,87 @@
+;; Batteries-included deps.edn for {{name}}
+;; Generated from evo-template
+{:paths   ["src" "test" "dev" "agent"]
+
+ :deps
+ {;; Core ClojureScript
+  org.clojure/clojurescript             {:mvn/version "1.12.42"}
+
+  ;; UI & DOM - Replicant for simple, fast React-like rendering
+  no.cjohansen/replicant                {:mvn/version "2025.06.21"}
+
+  ;; Schema & Validation - Malli for data schemas
+  metosin/malli                         {:mvn/version "0.19.1"}
+
+  ;; Pattern Matching
+  org.clojure/core.match                {:mvn/version "1.1.0"}
+
+  ;; Build tooling (shadow-cljs manages compilation)
+  thheller/shadow-cljs                  {:mvn/version "3.2.1"}
+
+  ;; Utility library - functional helpers
+  medley/medley                         {:mvn/version "1.4.0"}
+
+  ;; Database - DataScript for in-memory relational queries
+  datascript/datascript                 {:mvn/version "1.7.5"}
+
+  ;; Data transformation - Specter for deep data manipulation
+  com.rpl/specter                       {:mvn/version "1.1.5"}
+
+  ;; Dev tools - Browser debugging enhancements
+  binaryage/devtools                    {:mvn/version "1.0.7"}
+
+  ;; HTML generation (server-side or build-time)
+  hiccup/hiccup                         {:mvn/version "2.0.0"}
+
+  ;; Markdown parsing (if needed)
+  markdown-to-hiccup/markdown-to-hiccup {:mvn/version "0.6.2"}
+
+  ;; Property-based testing
+  org.clojure/test.check                {:mvn/version "1.1.1"}
+
+  ;; JSON handling
+  org.clojure/data.json                 {:mvn/version "2.5.1"}
+
+  ;; Async programming (if needed)
+  org.clojure/core.async                {:mvn/version "1.9.808-alpha1"}
+
+  ;; HTTP client (Clojure-side only)
+  clj-http/clj-http                     {:mvn/version "3.13.1"}
+
+  ;; CSS generation
+  garden/garden                         {:mvn/version "1.3.10"}
+
+  ;; Transit serialization
+  com.cognitect/transit-cljs            {:mvn/version "0.8.280"}
+
+  ;; Enhanced REPL experience (clojure+)
+  io.github.tonsky/clojure-plus         {:mvn/version "1.7.0"}
+
+  ;; Promises for async (modern approach)
+  funcool/promesa                       {:mvn/version "11.0.678"}}
+
+ :aliases
+ {;; nREPL server for AI/editor integration
+  ;; Usage: clj -M:nrepl (starts on port 7888)
+  :nrepl           {:extra-paths ["src" "test" "dev" "agent"]
+                    :extra-deps  {nrepl/nrepl {:mvn/version "1.5.1"}}
+                    ;; Allow nREPL to interrupt runaway evals
+                    :jvm-opts    ["-Djdk.attach.allowAttachSelf"]
+                    :main-opts   ["-m" "nrepl.cmdline" "--port" "7888"]}
+
+  ;; Full clojure-mcp server with shadow-cljs nREPL support
+  ;; Enables AI agents to connect to running ClojureScript REPL
+  ;; Usage: Started automatically via .mcp.json
+  :mcp-shadow-dual {:extra-deps {io.github.bhauman/clojure-mcp
+                                 {:git/sha "2dd09e595df7bb9b01a7c811955a354777253dc2"}}
+                    :exec-fn    clojure-mcp.main/start-mcp-server
+                    :exec-args  {:port 55449}} ; Must match shadow-cljs :nrepl port
+
+  ;; Test runner with property-based testing
+  ;; Usage: bb test (via bb.edn) or clj -M:test
+  :test            {:extra-paths ["test"]
+                    :extra-deps  {lambdaisland/kaocha {:mvn/version "1.91.1392"}}
+                    :main-opts   ["-m" "kaocha.runner"]
+                    :exec-fn     kaocha.runner/exec-fn
+                    :exec-args   {:color?     true
+                                  :fail-fast? false}}}}

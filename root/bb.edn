@@ -1,0 +1,89 @@
+{:paths ["dev" "src" "test"]
+  :deps {org.clojure/clojure {:mvn/version "1.12.0"}
+         org.clojure/clojurescript {:mvn/version "1.11.60"}}
+
+  :tasks
+  {:requires ([babashka.fs :as fs]
+              [clojure.string :as str])
+
+   ;; Quality gates
+   lint        {:doc "Run clj-kondo linter"
+                :task (shell "clj-kondo --lint src test dev")}
+
+   check       {:doc "Lint + compile check (full quality gate)"
+                :task (do
+                        (run 'lint)
+                        (shell "npx shadow-cljs compile :frontend"))}
+
+   test        {:doc "Run test suite"
+                :task (do
+                        (shell "npx shadow-cljs compile :test")
+                        (shell "node out/tests.js"))}
+
+   check-deps-sync {:doc "Verify deps.edn and shadow-cljs.edn versions match"
+                    :task (shell "scripts/check-version-sync.sh")}
+
+   ;; Cache & index management
+   clean       {:doc "Clear all caches and semantic search index"
+                :task (do
+                        (println "Clearing caches...")
+                        (fs/delete-tree ".shadow-cljs")
+                        (fs/delete-tree ".cpcache")
+                        (when (fs/exists? "node_modules/.cache")
+                          (fs/delete-tree "node_modules/.cache"))
+                        (println "Cleaning semantic search index...")
+                        (shell "ck --clean-orphans .")
+                        (doseq [dir (fs/glob "." "**/.ck")]
+                          (println (str "  Removing " dir))
+                          (fs/delete-tree dir))
+                        (println "✓ Caches and index cleaned"))}
+
+   index       {:doc "Rebuild ck (semantic search) embeddings index"
+                :task (do
+                        (println "Rebuilding semantic search index...")
+                        (println "Cleaning orphaned files...")
+                        (shell "ck --clean-orphans .")
+                        (println "Indexing source files...")
+                        (shell "ck --sem --threshold 0.0 --limit 1 'test' src/")
+                        (println "Indexing session files...")
+                        (shell "ck --sem --threshold 0.0 --limit 1 'test' ~/.claude/projects/-Users-alien-Projects-evo/")
+                        (println "✓ Index rebuilt"))}
+
+   ;; REPL helpers
+   repl-health {:doc "Quick REPL diagnostics (requires running REPL)"
+                :task (shell "clj -M -e '(require '[repl :as repl]) (repl/quick-health-check!)'")}
+
+   ;; Documentation
+   docs-overview {:doc "Generate AI architectural overview"
+                  :task (shell "scripts/generate-overview.sh" (str/join " " *command-line-args*))}
+
+   ;; Development server
+   dev         {:doc "Start shadow-cljs dev server + watch"
+                :task (shell "npx shadow-cljs watch :frontend")}
+
+   ;; Git hooks
+   install-hooks {:doc "Install git pre-commit hooks"
+                  :task (shell "scripts/install-hooks.sh")}
+
+   ;; Help
+   help        {:doc "Show available tasks"
+                :task (do
+                        (println "Available Babashka tasks:\n")
+                        (println "Quality Gates:")
+                        (println "  bb lint            - Run clj-kondo linter")
+                        (println "  bb check           - Lint + compile check")
+                        (println "  bb test            - Run test suite")
+                        (println "  bb check-deps-sync - Verify dependency versions match\n")
+                        (println "Cache & Index:")
+                        (println "  bb clean           - Clear all caches + semantic index")
+                        (println "  bb index           - Rebuild ck semantic index\n")
+                        (println "Development:")
+                        (println "  bb dev             - Start dev server + watch")
+                        (println "  bb repl-health     - REPL diagnostics")
+                        (println "  bb docs-overview   - Generate overview\n")
+                        (println "Setup:")
+                        (println "  bb install-hooks   - Install git hooks\n")
+                        (println "Skills (call directly):")
+                        (println "  skills/diagnostics/run.sh health")
+                        (println "  skills/code-research/run.sh ...")
+                        (println "  skills/session-memory/run.sh ..."))}}}

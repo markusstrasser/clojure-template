@@ -1,0 +1,25 @@
+{
+  "mcpServers": {
+    "clojure-shadow-cljs": {
+      "command": "clojure",
+      "args": ["-M:mcp-shadow-dual"],
+      "cwd": ".",
+      "env": {}
+    },
+    "beads": {
+      "command": "npx",
+      "args": ["-y", "plugin:beads@beads-marketplace"],
+      "cwd": "."
+    },
+    "chrome-devtools": {
+      "command": "npx",
+      "args": ["-y", "@cloudflare/mcp-server-chrome-devtools@latest"],
+      "cwd": "."
+    },
+    "tournament": {
+      "command": "npx",
+      "args": ["-y", "tournament-mcp@latest"],
+      "cwd": "."
+    }
+  }
+}
